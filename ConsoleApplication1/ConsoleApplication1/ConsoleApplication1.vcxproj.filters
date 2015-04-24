@@ -19,4 +19,10 @@
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="haskells\BinTree.hs" />
+    <None Include="Lab1_Algoritmer_15.pdf" />
+    <None Include="node.pdf" />
+    <None Include="haskells\AVLTree.hs" />
+  </ItemGroup>
 </Project>
