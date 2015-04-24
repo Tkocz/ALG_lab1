@@ -81,7 +81,7 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="haskells\AVLTree_START.hs" />
+    <None Include="haskells\AVLTree.hs" />
     <None Include="haskells\BinTree.hs" />
     <None Include="Lab1_Algoritmer_15.pdf" />
     <None Include="node.pdf" />

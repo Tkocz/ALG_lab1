@@ -1,8 +1,8 @@
 module AVLTree(AVLTree,emptyAVL) where
 
 data (Ord a,Show a) => AVLTree a = EmptyAVL
-                                 | NodeAVL a (AVLTree a) (AVLTree a)
-    deriving Show
+								 | NodeAVL a (AVLTree a) (AVLTree a)
+	deriving Show
 
 emptyAVL = EmptyAVL
 
