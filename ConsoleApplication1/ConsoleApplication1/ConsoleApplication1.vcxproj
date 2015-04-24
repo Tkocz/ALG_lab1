@@ -80,6 +80,12 @@
   <ItemGroup>
     <ClCompile Include="main.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="haskells\AVLTree_START.hs" />
+    <None Include="haskells\BinTree.hs" />
+    <None Include="Lab1_Algoritmer_15.pdf" />
+    <None Include="node.pdf" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
