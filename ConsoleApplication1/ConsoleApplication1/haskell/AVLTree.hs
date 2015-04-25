@@ -33,7 +33,8 @@ height (NodeAVL v lf rt) = max (height lf) (height rt)
 -- http://upload.wikimedia.org/wikipedia/commons/2/23/Tree_rotation.png
 --
 -- Bilden illustrerar rotationen. Vi tar Q, P och A. P ersätts med Q, som får Ps
--- som sitt vänstra underträd. P får Qs vänstra underträd som sitt högra underträd.
+-- som sitt vänstra underträd. P får Qs vänstra underträd som sitt högra
+-- underträd.
 rotateLeft (NodeAVL              -- Q i bilden
 				q_value
 				q_left_tree      -- A
@@ -69,20 +70,20 @@ rotateRight (NodeAVL              -- Q
 --------------------------------------------------------------------------------
 -- rotateRightLeft 
 --------------------------------------------------------------------------------
+-- Först roterar vi höger (innerst) sen vänster (ytterst).
 rotateRightLeft (NodeAVL v lf rt) = rotateLeft (NodeAVL v lf (rotateRight rt))
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
 -- rotateLeftRight 
 --------------------------------------------------------------------------------
+-- Först roterar vi vänster (innerst) sen höger (ytterst).
 rotateLeftRight (NodeAVL v lf rt) = rotateRight (NodeAVL v (rotateLeft lf) rt)
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
 -- fixLeftHeavy
 --------------------------------------------------------------------------------
---fixLeftHeavy (NodeAVL x EmptyAVL EmptyAVL) = (NodeAVL x EmptyAVL EmptyAVL)
-
 fixLeftHeavy at@(NodeAVL a bt@(NodeAVL b bl br) ar)
 	| bh - arh < 2 = NodeAVL a bt ar
 	| height bl < height br = rotateLeftRight at
@@ -95,8 +96,6 @@ fixLeftHeavy at@(NodeAVL a bt@(NodeAVL b bl br) ar)
 --------------------------------------------------------------------------------
 -- fixRightHeavy
 --------------------------------------------------------------------------------
---fixRightHeavy (NodeAVL x EmptyAVL EmptyAVL) = (NodeAVL x EmptyAVL EmptyAVL)
-
 fixRightHeavy at@(NodeAVL a al bt@(NodeAVL b bl br))
 	| bh - alh < 2 = NodeAVL a al bt
 	| height bl > height br = rotateRightLeft at

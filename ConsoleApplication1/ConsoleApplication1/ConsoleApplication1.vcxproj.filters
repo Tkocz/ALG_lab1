@@ -15,14 +15,13 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
+    <None Include="haskell\AVLTree.hs" />
+    <None Include="haskell\BinTree.hs" />
+    <None Include="docs\Lab1_Algoritmer_15.pdf" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="haskells\BinTree.hs" />
-    <None Include="Lab1_Algoritmer_15.pdf" />
-    <None Include="node.pdf" />
-    <None Include="haskells\AVLTree.hs" />
+    <ClCompile Include="c\main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

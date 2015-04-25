@@ -9,8 +9,8 @@
 --treeSort     :: (Ord a,Show a) => [a] -> [a]
 module BinTree () where
 data (Ord a) => BinTree a = EmptyBT
-                          | NodeBT a (BinTree a) (BinTree a)
-    deriving Show
+						  | NodeBT a (BinTree a) (BinTree a)
+	deriving Show
 
 emptyTree = EmptyBT
 
@@ -38,7 +38,7 @@ treeMember v' (NodeBT v lf rt)
 	
 	-- Om v' är större än prim så finns noden (om den existerar) i höger
 	-- delträd. Därför anropar vi treeMember rekursivt på det högra delträdet.
-    | v' > v
+	| v' > v
 	= treeMember v' rt
 --------------------------------------------------------------------------------
 
@@ -51,25 +51,25 @@ treeMember v' (NodeBT v lf rt)
 treeInsert v' EmptyBT = NodeBT v' EmptyBT EmptyBT
 
 treeInsert v' (NodeBT v lf rt)
-	-- Vi har hittat en nod som innehåller det värde vi vill sätta in i sökträdet.
-	-- Då ett sökträd inte får innehålla samma värde i flera noder så anser vi
-	-- helt enkelt att vi är klara här, och returnerar en nod som är exakt
-	-- likadan som den som redan finns i sökträdet.
+	-- Vi har hittat en nod som innehåller det värde vi vill sätta in i
+	-- sökträdet. Då ett sökträd inte får innehålla samma värde i flera noder så
+	-- anser vi helt enkelt att vi är klara här, och returnerar en nod som är
+	-- exakt likadan som den som redan finns i sökträdet.
 	| v'==v
 	= NodeBT v lf rt
 	
-	-- Den nod vi tittar på just nu har ett större värde än v', vilket innebär att
-	-- värdet vi vill sätta in ska sättas in i nuvarande nods vänster delträd, så
-	-- vi skapar en nod likt den vi redan har, fast anropar treeInsert på vänster
-	-- delträd.
-    | v'<v
+	-- Den nod vi tittar på just nu har ett större värde än v', vilket innebär
+	-- att värdet vi vill sätta in ska sättas in i nuvarande nods vänster
+	-- delträd, så vi skapar en nod likt den vi redan har, fast anropar
+	-- treeInsert på vänster delträd.
+	| v'<v
 	= NodeBT v (treeInsert v' lf) rt
 	
-	-- Den nod vi tittar på just nu har ett mindre värde än v', vilket innebär att
-	-- värdet vi vill sätta in ska sättas in i nuvarande nods höger delträd, så
-	-- vi skapar en nod likt den vi redan har, fast anropar treeInsert på höger
-	-- delträd.
-    | otherwise --(v'>v)
+	-- Den nod vi tittar på just nu har ett mindre värde än v', vilket innebär
+	-- att värdet vi vill sätta in ska sättas in i nuvarande nods höger delträd,
+	-- så vi skapar en nod likt den vi redan har, fast anropar treeInsert på
+	-- höger delträd.
+	| otherwise --(v'>v)
 	= NodeBT v lf (treeInsert v' rt)
 --------------------------------------------------------------------------------
 
@@ -99,7 +99,7 @@ treeDelete v' (NodeBT v EmptyBT EmptyBT)
 	-- får vara precis som den är. Ingen ändring görs i trädet.
 	| otherwise
 	= (NodeBT v EmptyBT EmptyBT)
-             
+			 
 -- Vi har hittat en nod som har ett delträd åt vänster, och dessutom innehåller
 -- det värde vi vill ta bort. Vi löser det genom att ta bort nuvarande nod och
 -- ersätta den med sitt delträd:
@@ -172,7 +172,8 @@ minTree (NodeBT v lf EmptyBT) = minTree lf
 -- ...förutom i noder där vi bara kan gå åt höger. Där går vi åt höger istället.
 minTree (NodeBT v EmptyBT rt) = minTree rt
 
--- Om vi kan välja håll så går vi åt vänster, eftersom lägre värden ligger ditåt.
+-- Om vi kan välja håll så går vi åt vänster, eftersom lägre värden ligger
+-- ditåt.
 minTree (NodeBT v lf rt) = minTree lf
 --------------------------------------------------------------------------------
 
@@ -182,17 +183,17 @@ minTree (NodeBT v lf rt) = minTree lf
 -- Om vi når en nod utan underträd så returnerar vi nodens värde som en mängd.
 inorder (NodeBT v EmptyBT EmptyBT) = [v]
 
--- Om vi har ett underträd åt vänster så går vi igenom vänster underträd rekursivt
--- och lägger sedan till nuvarande nods värde i slutet på mängden.
+-- Om vi har ett underträd åt vänster så går vi igenom vänster underträd
+-- rekursivt och lägger sedan till nuvarande nods värde i slutet på mängden.
 inorder (NodeBT v lf EmptyBT) = (inorder lf)++[v]
 
--- Vi gör samma sak åt höger, fast lägger på nuvarande nods värde i början på mängden
--- istället.
+-- Vi gör samma sak åt höger, fast lägger på nuvarande nods värde i början på
+-- mängden istället.
 inorder (NodeBT v EmptyBT rt) = [v]++(inorder rt)
 
--- Har vi underträd åt båda hållen går vi först igenom vänster underträd rekursivt,
--- sätter sedan in nuvarande nods värde i mängden, och lägger sedan på höger underträds
--- värden rekursivt.
+-- Har vi underträd åt båda hållen går vi först igenom vänster underträd
+-- rekursivt, sätter sedan in nuvarande nods värde i mängden, och lägger sedan
+-- på höger underträds värden rekursivt.
 inorder (NodeBT v lf rt) = (inorder lf)++[v]++(inorder rt)
 --------------------------------------------------------------------------------
 
@@ -212,6 +213,3 @@ t2= NodeBT 5 (NodeBT 2 EmptyBT (NodeBT 4 (NodeBT 3 EmptyBT EmptyBT) EmptyBT)) Em
 
 t3::BinTree Integer
 t3= NodeBT 5 (NodeBT 2 EmptyBT (NodeBT 4 (NodeBT 3 EmptyBT EmptyBT) EmptyBT)) (NodeBT 6 EmptyBT (NodeBT 7 EmptyBT (NodeBT 10 (NodeBT 9 EmptyBT EmptyBT) (NodeBT 11 EmptyBT EmptyBT))))
-
-
-
