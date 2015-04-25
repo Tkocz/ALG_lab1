@@ -37,10 +37,10 @@ typedef struct nodeT{
 
 void treeInsert(nodeT * node, int value){
     if (node->type == ONEVALUE) {
-        if (value < node->leftValue){
+        if (value < node->leftValue) {
             node->rightValue = node->leftValue;
             node->leftValue = value;
-        }else
+        } else
             node->rightValue = value;
         node->type = TWOVALUE;
     }else{
