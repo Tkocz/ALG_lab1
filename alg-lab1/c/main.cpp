@@ -19,7 +19,15 @@ http://db.cs.duke.edu/courses/cps100e/spring99/lects/sect1623treeH.pdf
 
 Insertions in 2-3 trees
 
-  Insert new leaf in appropriate place.  Repeat until all nonleaf nodes have 2 or 3 children    * if there is a node with 4 children, split the parent into two parent      nodes, with 2 children each.    * if split the root, then add a new root.  Adjust search values along insertion path.
+  Insert new leaf in appropriate place.
+
+  Repeat until all nonleaf nodes have 2 or 3 children
+    * if there is a node with 4 children, split the parent into two parent
+      nodes, with 2 children each.
+    * if split the root, then add a new root.
+
+  Adjust search values along insertion path.
+
 
 
 
