@@ -30,6 +30,8 @@ Insertions in 2-3 trees
 
 
 
+http://penguin.ewu.edu/cscd320/Topic/B-Tree/2-3_Build.html
+pseudocode for insertion in a 2-3 tree.
 
 */
 
