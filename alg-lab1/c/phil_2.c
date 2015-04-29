@@ -190,6 +190,7 @@ void treeInsert(int value, nodeT* r) {
 
                     r->p->r_c = r->p->m_c;
                     r->p->m_c = newNode(r_v);
+                    r->p->m_c->p = r->p;
                 }
                 else {
                     // Det mellersta värdet sätts till höger i föräldern. Det
@@ -202,6 +203,7 @@ void treeInsert(int value, nodeT* r) {
 
                     r->p->r_c = r->p->m_c;
                     r->p->m_c = newNode(l_v);
+                    r->p->m_c->p = r->p;
                 }
 
             }
