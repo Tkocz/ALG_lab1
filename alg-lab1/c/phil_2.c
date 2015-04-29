@@ -115,10 +115,8 @@ void treeInsert(int value, nodeT* r) {
              *   vänster eller höger genom att jämföra med värdet som finns i r.
              *
              */
-            if (value < r->l_v)
-                treeInsert(value, r->l_c);
-            else
-                treeInsert(value, r->m_c);
+            if (value < r->l_v) treeInsert(value, r->l_c); // Vänster.
+            else                treeInsert(value, r->m_c); // Höger.
         }
     }
     else /* if (r->t == THREE_NODE) */ {
@@ -229,12 +227,9 @@ void treeInsert(int value, nodeT* r) {
              *   propageras åt, beroende på hur det står i jämförelse med de två
              *   värden som finns i r.
              */
-            if (value < r->l_v)
-                treeInsert(value, r->l_c);
-            else if (value < r->r_v)
-                treeInsert(value, r->m_c);
-            else
-                treeInsert(value, r->r_c);
+                 if (value < r->l_v) treeInsert(value, r->l_c); // Vänster.
+            else if (value < r->r_v) treeInsert(value, r->m_c); // Mitten.
+            else                     treeInsert(value, r->r_c); // Höger.
         }
     }
 }
