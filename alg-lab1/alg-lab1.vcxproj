@@ -20,13 +20,13 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v100</PlatformToolset>
+    <PlatformToolset>v120</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v100</PlatformToolset>
+    <PlatformToolset>v120</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
@@ -42,13 +42,13 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>\\utbfs3\UTBVOL6\home\S133686\dokument\Visual Studio 2010\Projects\alg-lab1\alg-lab1\pclibs\include;$(IncludePath)</IncludePath>
-    <LibraryPath>\\utbfs3\UTBVOL6\home\S133686\dokument\Visual Studio 2010\Projects\alg-lab1\alg-lab1\pclibs\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\Users\Philip\Documents\Visual Studio 2013\Projects\alg-lab1\alg-lab1\pclibs\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Users\Philip\Documents\Visual Studio 2013\Projects\alg-lab1\alg-lab1\pclibs\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>\\utbfs3\UTBVOL6\home\S133686\dokument\Visual Studio 2010\Projects\alg-lab1\alg-lab1\pclibs\include;$(IncludePath)</IncludePath>
-    <LibraryPath>\\utbfs3\UTBVOL6\home\S133686\dokument\Visual Studio 2010\Projects\alg-lab1\alg-lab1\pclibs\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\Users\Philip\Documents\Visual Studio 2013\Projects\alg-lab1\alg-lab1\pclibs\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Users\Philip\Documents\Visual Studio 2013\Projects\alg-lab1\alg-lab1\pclibs\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
