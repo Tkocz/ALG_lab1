@@ -196,7 +196,7 @@ void treeInsert(int value, nodeT* r) {
                     // Det mellersta värdet sätts till höger i föräldern. Det
                     // betyder att vi flyttat det mellersta värdet uppåt
                     // vänster. Föräldern får ett nytt mellan-barn med värdet
-                    // l_v;
+                    // l_v.
                     r->p->r_v = m_v;
 
                     r->p->r_c = r->p->m_c;
