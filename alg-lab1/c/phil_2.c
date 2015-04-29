@@ -96,10 +96,14 @@ void treeInsert(int value, nodeT* r) {
              *
              */
             if (value < r->l_v) {
+                // Vi sätter det nya värdet till vänster genom att först flytta
+                // nodens nuvarande värde åt höger, sedan sätta in nya värdet
+                // på vänster sida.
                 r->r_v = r->l_v;
                 r->l_v = value;
             }
             else {
+                // Vi sätter det nya värdet till höger.
                 r->r_v = value;
             }
 
