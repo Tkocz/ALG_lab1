@@ -85,6 +85,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="c\main.c" />
+    <ClCompile Include="c\phil_main.c" />
   </ItemGroup>
   <ItemGroup>
     <None Include="haskell\AVLTree.hs" />
