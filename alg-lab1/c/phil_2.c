@@ -322,7 +322,7 @@ void main(void){
     printTree(node);
     printf("\n\n");
 
-    treeInsert(2, node);
+    treeInsert(8, node);
 
     while (TRUE) {
         if (node->p == NULL)
