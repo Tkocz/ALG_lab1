@@ -271,99 +271,47 @@ void printTree(nodeT* node){
 }
 
 
+void treeInsert2(int v, nodeT* r) {
+    // den här funktionen underlättar bara insättning och utskrivning
+
+    while (TRUE) {
+        if (r->p == NULL)
+            break;
+
+        r = r->p;
+    }
+
+    printf("\n");
+    printTree(r);
+    printf("\n");
+
+    treeInsert(v, r);
+
+}
+
 
         
 void main(void){
     // 5 7 3 9 1 2 4 10
 
-    nodeT *node = newNode(5);
-
-    printf("\n\n");
-    printTree(node);
-    printf("\n\n");
-
-    treeInsert(7, node);
-
-    printf("\n\n");
-    printTree(node);
-    printf("\n\n");
-
-    treeInsert(3, node);
+    nodeT *r = newNode(5);
+    treeInsert2(7, r);
+    treeInsert2(3, r);
+    treeInsert2(9, r);
+    treeInsert2(1, r);
+    treeInsert2(2, r);
+    treeInsert2(4, r);
+    treeInsert2(10, r);
 
     while (TRUE) {
-        if (node->p == NULL)
+        if (r->p == NULL)
             break;
 
-        node = node->p;
+        r = r->p;
     }
 
     printf("\n\n");
-    printTree(node);
-    printf("\n\n");
-
-    treeInsert(9, node);
-
-    while (TRUE) {
-        if (node->p == NULL)
-            break;
-
-        node = node->p;
-    }
-
-    printf("\n\n");
-    printTree(node);
-    printf("\n\n");
-
-    treeInsert(1, node);
-
-    while (TRUE) {
-        if (node->p == NULL)
-            break;
-
-        node = node->p;
-    }
-
-    printf("\n\n");
-    printTree(node);
-    printf("\n\n");
-
-    treeInsert(8, node);
-
-    while (TRUE) {
-        if (node->p == NULL)
-            break;
-
-        node = node->p;
-    }
-
-    printf("\n\n");
-    printTree(node);
-    printf("\n\n");
-
-    treeInsert(4, node);
-
-    while (TRUE) {
-        if (node->p == NULL)
-            break;
-
-        node = node->p;
-    }
-
-    printf("\n\n");
-    printTree(node);
-    printf("\n\n");
-
-    treeInsert(10, node);
-
-    while (TRUE) {
-        if (node->p == NULL)
-            break;
-
-        node = node->p;
-    }
-
-    printf("\n\n");
-    printTree(node);
+    printTree(r);
     printf("\n\n");
 
     system("pause");
