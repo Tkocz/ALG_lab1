@@ -176,16 +176,17 @@ void treeInsert(int value, nodeT* r) {
                  *   Obs! Illustrationen ovan blir spegelvänd om vi flyttar
                  *   värdet uppåt vänster istället för uppåt höger.
                  */
-                r->t = TWO_NODE;
+                r->t    = TWO_NODE;
                 r->p->t = THREE_NODE;
 
                 if (m_v < r->p->l_v) {
                     // Det mellersta värdet sätts till vänster i föräldern. Det
                     // betyder att vi flyttat det mellersta värdet uppåt höger.
                     // Föräldern får ett nytt mellan-barn med värdet r_v.
+                    r->l_v = l_v;
+
                     r->p->r_v = r->p->l_v;
                     r->p->l_v = m_v;
-                    r->l_v = l_v;
 
                     r->p->r_c = r->p->m_c;
                     r->p->m_c = newNode(r_v);
@@ -195,6 +196,8 @@ void treeInsert(int value, nodeT* r) {
                     // betyder att vi flyttat det mellersta värdet uppåt
                     // vänster. Föräldern får ett nytt mellan-barn med värdet
                     // l_v.
+                    r->l_v = r_v;
+
                     r->p->r_v = m_v;
 
                     r->p->r_c = r->p->m_c;
