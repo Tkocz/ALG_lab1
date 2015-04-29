@@ -1,4 +1,4 @@
-#include "genlib.h"
+/*#include "genlib.h"
 #include "simpio.h"
 
 /*
@@ -33,7 +33,7 @@ Insertions in 2-3 trees
 http://penguin.ewu.edu/cscd320/Topic/B-Tree/2-3_Build.html
 pseudocode for insertion in a 2-3 tree.
 
-*/
+
 
 #define ONEVALUE 1
 #define TWOVALUE 2
@@ -163,4 +163,4 @@ void main(void){
 	printTree(node);
 	printf("\n\n");
 	system("pause");
-} 
+} */

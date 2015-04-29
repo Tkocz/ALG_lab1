@@ -85,12 +85,29 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="c\main.c" />
+    <ClCompile Include="c\phil_2.c" />
     <ClCompile Include="c\phil_main.c" />
   </ItemGroup>
   <ItemGroup>
     <None Include="haskell\AVLTree.hs" />
     <None Include="haskell\BinTree.hs" />
     <None Include="docs\Lab1_Algoritmer_15.pdf" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="pclibs\include\exception.h" />
+    <ClInclude Include="pclibs\include\extgraph.h" />
+    <ClInclude Include="pclibs\include\gcalloc.h" />
+    <ClInclude Include="pclibs\include\genlib.h" />
+    <ClInclude Include="pclibs\include\graphics.h" />
+    <ClInclude Include="pclibs\include\mazelib.h" />
+    <ClInclude Include="pclibs\include\random.h" />
+    <ClInclude Include="pclibs\include\simpio.h" />
+    <ClInclude Include="pclibs\include\strlib.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="pclibs\lib\GraphicsLib2010.lib" />
+    <Library Include="pclibs\lib\MazeLib2010.lib" />
+    <Library Include="pclibs\lib\PCLibs2010.lib" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
