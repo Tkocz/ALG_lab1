@@ -107,6 +107,7 @@ void treeInsert(int value, nodeT* r) {
                 r->r_v = value;
             }
 
+            // r har nu två värden och blir således en tre-nod (utan barn).
             r->t = THREE_NODE;
         }
         else {
