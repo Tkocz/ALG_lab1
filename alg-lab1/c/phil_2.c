@@ -135,7 +135,7 @@ void treeInsert(int value, nodeT* r) {
                  *   någon förälder. I detta fall skapar vi en förälder p, som
                  *   får det mellersta värdet. r återställs till en två-nod och
                  *   får det lägsta värdet. Vi skapar även en ny nod r' som får
-                 *   det högsta värdet. p får r och r' som vänster- respektiva
+                 *   det högsta värdet. p får r och r' som vänster- respektive
                  *   höger-barn.
                  *
                  *     p
