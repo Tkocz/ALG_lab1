@@ -208,6 +208,9 @@ void treeInsert(int value, nodeT* r) {
                 /*
                  * Fall 5:
                  *
+                 *   r är en tre-nod, har inga barn, och en förälder som är en
+                 *   tre-nod (med två värden).
+                 *
                  *   fan vet vad vi ska göra här >=(
                  *
                  */
