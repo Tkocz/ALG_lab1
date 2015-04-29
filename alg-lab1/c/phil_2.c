@@ -301,6 +301,7 @@ void main(void){
     treeInsert2(1, r);
     treeInsert2(2, r);
     treeInsert2(4, r);
+    treeInsert2(0, r);
     treeInsert2(10, r);
 
     while (TRUE) {
