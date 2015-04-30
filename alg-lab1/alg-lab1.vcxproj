@@ -42,13 +42,13 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>C:\Users\Philip\Documents\Visual Studio 2013\Projects\alg-lab1\alg-lab1\pclibs\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Users\Philip\Documents\Visual Studio 2013\Projects\alg-lab1\alg-lab1\pclibs\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>pclibs\include;$(IncludePath)</IncludePath>
+    <LibraryPath>pclibs\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>C:\Users\Philip\Documents\Visual Studio 2013\Projects\alg-lab1\alg-lab1\pclibs\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Users\Philip\Documents\Visual Studio 2013\Projects\alg-lab1\alg-lab1\pclibs\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>pclibs\include;$(IncludePath)</IncludePath>
+    <LibraryPath>pclibs\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
