@@ -18,6 +18,9 @@ typedef struct nodeT {
 } nodeT;
 
 bool noChildren(nodeT* r) {
+    if (r->t == TWO_NODE)
+        return (r->l_c == NULL) && (r->m_c == NULL);
+
     return (r->l_c == NULL) && (r->m_c == NULL) && (r->r_c == NULL);
 }
 
@@ -82,7 +85,7 @@ int min_val(int a, int b, int c) {
     return t;
 }
 
-nodeT* splitInsert(int value, nodeT* r) {
+void splitInsert(int value, nodeT* r, nodeT* s) {
     int l_v = min_val(r->l_v, value, r->r_v);
     int m_v = mid_val(r->l_v, value, r->r_v);
     int r_v = max_val(r->l_v, value, r->r_v);
@@ -123,16 +126,30 @@ nodeT* splitInsert(int value, nodeT* r) {
                 // det här ska helst inte hända... lol
             }
 
+
             // r är överfull
             // r ska splittas till r1 och r2
             // r1 ska innehålla l_v
             // r2 ska innehålla r_v
             // m_v skickas uppåt
 
-            nodeT* p = splitInsert(m_v, r->p);
+            nodeT* new_s = newNode(l_v);
 
-            printf("SHIT DIS SHIT\n");
+            r->t = TWO_NODE;
+            r->l_v = r_v;
 
+            if (s) {
+                new_s->l_c = s;
+                new_s->l_c->p = new_s;
+            }
+
+            splitInsert(m_v, r->p, new_s);
+
+            r->p = new_s->p;
+
+
+            r->p->l_c = new_s;
+            r->p->m_c = r;
         }
     }
     else {
@@ -141,18 +158,77 @@ nodeT* splitInsert(int value, nodeT* r) {
             // det här ska helst inte hända... lol
         }
 
+        /*
+         * Vi har:
+         *
+         *    ___[x,y]____
+         *   /   /   \    \
+         *  l_c  m_c  r_c  s
+         *
+         * Vi vill sätta in ex. p (som här råkar vara lägre än x och y).
+         *
+         * Vi får:
+         *
+         *     [x]
+         *     / \
+         *   [p]  [y]
+         *
+         * Vi kan haka på tre av barnen, men det fjärde vet bara nästa nivå
+         * om.
+         */
+
+        // TODO: Återanvänd r.
+
         nodeT* p = newNode(m_v);
 
         nodeT* a = newNode(l_v);
-        nodeT* b = newNode(r_v);
+        nodeT* b = r;
+
+        b->t = TWO_NODE;
+        b->l_v = r_v;
+
+        a->p = p;
+        b->p = p;
 
         p->l_c = a;
         p->m_c = b;
 
-        a->p = p;
-        b->p = b;
+        if (value == l_v) {
+            // kommer från vänster
 
-        return p;
+            a->l_c = s;
+            a->m_c = r->l_c;
+
+            b->l_c = r->m_c;
+            b->m_c = r->r_c;
+        }
+        else if (value == m_v) {
+            // kommer från mitten
+
+            a->l_c = r->l_c;
+            a->m_c = s;
+
+            b->l_c = r->m_c;
+            b->m_c = r->r_c;
+        }
+        else if (value == r_v) {
+            // kommer från höger
+
+            a->l_c = r->l_c;
+            a->m_c = r->m_c;
+
+            b->l_c = s;
+            b->m_c = r->r_c;
+        }
+
+        a->l_c->p = a;
+        a->m_c->p = a;
+
+        b->l_c->p = b;
+        b->m_c->p = b;
+
+        // För helvete..!
+        b->r_c = NULL;
     }
 }
 
@@ -303,7 +379,7 @@ void treeInsert(int value, nodeT* r) {
                  *
                  */
 
-                splitInsert(value, r);
+                splitInsert(value, r, NULL);
             }
         }
         else {
@@ -364,10 +440,21 @@ void treeInsert2(int v, nodeT* r) {
 
     printf("\nInserting %d:\n", v);
     treeInsert(v, r);
+    nodeT* last_r = NULL;
+    nodeT* last_r2 = NULL;
+    nodeT* last_r3 = NULL;
+    nodeT* last_r4 = NULL;
     while (TRUE) {
+        if (v == 36) {
+            printf(".");
+        }
         if (r->p == NULL)
             break;
 
+        last_r4 = last_r3;
+        last_r3 = last_r2;
+        last_r2 = last_r;
+        last_r = r;
         r = r->p;
     }
     printTree(r);
@@ -378,7 +465,7 @@ void treeInsert2(int v, nodeT* r) {
 
         
 void main(void){
-    nodeT *r = newNode(10);
+    nodeT *r = newNode(1);
 
     printTree(r);
     printf("\n");
@@ -391,14 +478,16 @@ void main(void){
     treeInsert2(4, r);
     treeInsert2(0, r);
     treeInsert2(10, r);*/
-    treeInsert2(40, r);
-    treeInsert2(30, r);
-    treeInsert2(37, r);
-    treeInsert2(20, r);
-    treeInsert2(39, r);
-    treeInsert2(38, r);
+    treeInsert2(2, r);
+    treeInsert2(3, r);
+    treeInsert2(4, r);
+    treeInsert2(5, r);
+    treeInsert2(6, r);
+    treeInsert2(7, r);
+    treeInsert2(8, r);
+    treeInsert2(9, r);
+    treeInsert2(10, r);
 
-    treeInsert2(36, r);
 
 
 
