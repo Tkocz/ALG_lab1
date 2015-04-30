@@ -82,6 +82,80 @@ int min_val(int a, int b, int c) {
     return t;
 }
 
+nodeT* splitInsert(int value, nodeT* r) {
+    int l_v = min_val(r->l_v, value, r->r_v);
+    int m_v = mid_val(r->l_v, value, r->r_v);
+    int r_v = max_val(r->l_v, value, r->r_v);
+
+    if (r->p) {
+        if (r->p->t == TWO_NODE) {
+            // parent har bara 1 värde, så vi kan stoppa in skiten där
+
+            r->p->t = THREE_NODE;
+
+            if (m_v < r->p->l_v) {
+                r->p->r_v = r->p->l_v;
+                r->p->l_v = m_v;
+
+                r->p->r_c = r->p->m_c;
+                r->p->m_c = r;
+                r->p->l_c = newNode(l_v);
+                r->p->l_c->p = r->p;
+
+                r->t = TWO_NODE;
+                r->l_v = r_v;
+            }
+            else {
+                r->p->r_v = m_v;
+
+                r->p->r_c = newNode(r_v);
+                r->p->r_c->p = r->p;
+                r->p->m_c = r;
+                r->t = TWO_NODE;
+                r->l_v = l_v;
+            }
+
+            return r->p; //????
+        }
+        else /* if (r->p->t == THREE_NODE) */ {
+            if (r->t != THREE_NODE) {
+                printf("GOD DAMNIT\n");
+                // det här ska helst inte hända... lol
+            }
+
+            // r är överfull
+            // r ska splittas till r1 och r2
+            // r1 ska innehålla l_v
+            // r2 ska innehålla r_v
+            // m_v skickas uppåt
+
+            nodeT* p = splitInsert(m_v, r->p);
+
+            printf("SHIT DIS SHIT\n");
+
+        }
+    }
+    else {
+        if (r->t != THREE_NODE) {
+            printf("GOD DAMNIT 2\n");
+            // det här ska helst inte hända... lol
+        }
+
+        nodeT* p = newNode(m_v);
+
+        nodeT* a = newNode(l_v);
+        nodeT* b = newNode(r_v);
+
+        p->l_c = a;
+        p->m_c = b;
+
+        a->p = p;
+        b->p = b;
+
+        return p;
+    }
+}
+
 void treeInsert(int value, nodeT* r) {
     if (r->t == TWO_NODE) {
         if (noChildren(r)) {
@@ -180,9 +254,13 @@ void treeInsert(int value, nodeT* r) {
                  *
                  *   Obs! Illustrationen ovan blir spegelvänd om vi flyttar
                  *   värdet uppåt vänster istället för uppåt höger.
+                 *
                  */
                 r->t    = TWO_NODE;
                 r->p->t = THREE_NODE;
+
+                // Kom ihåg: r har inga barn, så vi behöver inte arrangera om
+                //           dem här, även fast vi gör om r till en två-nod.
 
                 if (m_v < r->p->l_v) {
                     // Det mellersta värdet sätts till vänster i föräldern. Det
@@ -219,12 +297,13 @@ void treeInsert(int value, nodeT* r) {
                  *   r är en tre-nod, har inga barn, och en förälder som är en
                  *   tre-nod (med två värden).
                  *
-                 *   fan vet vad vi ska göra här >=(
+                 *     p
+                 *  / / \ \
+                 *  a b c d
                  *
                  */
-                // det är här den ska propagera upp splitten på något vis, allt annat funkar...
-                // parent ska få m_v i sig, som i sin tur måste splittas, osv...så länge parent är av typen threenode
-                printf("***not there yet***");
+
+                splitInsert(value, r);
             }
         }
         else {
@@ -236,6 +315,7 @@ void treeInsert(int value, nodeT* r) {
              *   att sätta in värdet i. Vi håller koll på vilket håll värdet ska
              *   propageras åt, beroende på hur det står i jämförelse med de två
              *   värden som finns i r.
+             *
              */
                  if (value < r->l_v) treeInsert(value, r->l_c); // Vänster.
             else if (value < r->r_v) treeInsert(value, r->m_c); // Mitten.
@@ -281,28 +361,49 @@ void treeInsert2(int v, nodeT* r) {
         r = r->p;
     }
 
-    printf("\n");
+
+    printf("\nInserting %d:\n", v);
+    treeInsert(v, r);
+    while (TRUE) {
+        if (r->p == NULL)
+            break;
+
+        r = r->p;
+    }
     printTree(r);
     printf("\n");
-
-    treeInsert(v, r);
 
 }
 
 
         
 void main(void){
-    // 5 7 3 9 1 2 4 10
+    nodeT *r = newNode(10);
 
-    nodeT *r = newNode(5);
-    treeInsert2(7, r);
+    printTree(r);
+    printf("\n");
+
+    /*treeInsert2(7, r);
     treeInsert2(3, r);
     treeInsert2(9, r);
     treeInsert2(1, r);
     treeInsert2(2, r);
     treeInsert2(4, r);
     treeInsert2(0, r);
-    treeInsert2(10, r);
+    treeInsert2(10, r);*/
+    treeInsert2(40, r);
+    treeInsert2(30, r);
+    treeInsert2(37, r);
+    treeInsert2(20, r);
+    treeInsert2(39, r);
+    treeInsert2(38, r);
+
+    treeInsert2(36, r);
+
+
+
+
+
 
     while (TRUE) {
         if (r->p == NULL)
@@ -310,10 +411,6 @@ void main(void){
 
         r = r->p;
     }
-
-    printf("\n\n");
-    printTree(r);
-    printf("\n\n");
 
     system("pause");
 } 
