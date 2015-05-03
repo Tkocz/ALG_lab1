@@ -74,6 +74,9 @@ int mid_val(int a, int b, int c) {
         else
             return a;
     }
+
+    printf("Nu gick nat at helvete!!!\n");
+    return -999;
 }
 
 int min_val(int a, int b, int c) {
@@ -138,40 +141,43 @@ void splitInsert(int value, nodeT* r, nodeT* nodes[]) {
             r->t = TWO_NODE;
             r->l_v = r_v;
 
-			nodeT** new_nodes = (nodeT**)malloc(sizeof(nodeT*) * 4);
+            nodeT** new_nodes = (nodeT**)malloc(sizeof(nodeT*) * 4);
 
-			new_nodes[0] = s;
-			new_nodes[1] = r;
-			new_nodes[2] = r->p->l_c;
-			new_nodes[3] = r->p->m_c;
+            new_nodes[0] = s;
+            new_nodes[1] = r;
+            new_nodes[2] = r->p->l_c;
+            new_nodes[3] = r->p->m_c;
 
-			if (r == r->p->l_c) new_nodes[2] = r->p->r_c;
-			if (r == r->p->m_c) new_nodes[3] = r->p->r_c;
-
-			if (nodes) {
-				for (int i = 0; i < 4; i++) {
-					for (int j = (i+1); j < 4; j++) {
-						nodeT* a = nodes[i];
-						nodeT* b = nodes[j];
-
-						if (a->l_v > b->l_v) {
-							nodeT* t = a;
-							a = b;
-							b = t;
-						}
-					}
-				}
-
-				s->l_c = nodes[0];
-				s->m_c = nodes[1];
-
-				r->l_c = nodes[2];
-				r->m_c = nodes[3];
-			}
+            if (r == r->p->l_c) new_nodes[2] = r->p->r_c;
+            if (r == r->p->m_c) new_nodes[3] = r->p->r_c;
 
             splitInsert(m_v, r->p, new_nodes);
 
-			free(new_nodes);
+
+            if (nodes) {
+                for (int i = 0; i < 4; i++) {
+                    for (int j = (i + 1); j < 4; j++) {
+                        if (nodes[i]->l_v > nodes[j]->l_v) {
+                            nodeT* t = nodes[i];
+                            nodes[i] = nodes[j];
+                            nodes[j] = t;
+                        }
+
+                    }
+                }
+
+                s->l_c = nodes[0];
+                s->m_c = nodes[1];
+
+                r->l_c = nodes[2];
+                r->m_c = nodes[3];
+            }
+            else {
+                printf("funkar det?\n");
+            }
+
+
+            free(new_nodes);
 
         }
     }
@@ -216,24 +222,22 @@ void splitInsert(int value, nodeT* r, nodeT* nodes[]) {
         p->l_c = a;
         p->m_c = b;
 
-		for (int i = 0; i < 4; i++) {
-			for (int j = (i+1); j < 4; j++) {
-				nodeT* p = nodes[i];
-				nodeT* q = nodes[j];
+        for (int i = 0; i < 4; i++) {
+            for (int j = (i+1); j < 4; j++) {
+                if (nodes[i]->l_v > nodes[j]->l_v) {
+                    nodeT* t = nodes[i];
+                    nodes[i] = nodes[j];
+                    nodes[j] = t;
+                }
 
-				if (p->l_v > q->l_v) {
-					nodeT* t = p;
-					p = q;
-					q = t;
-				}
-			}
-		}
+            }
+        }
 
-		a->l_c = nodes[0];
-		a->m_c = nodes[1];
+        a->l_c = nodes[0];
+        a->m_c = nodes[1];
 
-		b->l_c = nodes[2];
-		b->m_c = nodes[3];
+        b->l_c = nodes[2];
+        b->m_c = nodes[3];
     }
 }
 
@@ -423,7 +427,7 @@ void printTree(nodeT* node){
     else
         printf("() ");
 
-    if (node->r_c)
+    if (node->t == THREE_NODE && node->r_c)
         printTree(node->r_c);
     else
         printf("() ");
@@ -470,41 +474,23 @@ void treeInsert2(int v, nodeT* r) {
 
         
 void main(void){
-    nodeT *r = newNode(1);
+    printf("Mata in det du vill (förutom en hel sekvens av värden):\n");
+    nodeT *r = NULL;
+    while (TRUE) {
+        int i = GetInteger();
+        if (!r) {
+            r = newNode(i);
+            printTree(r);
+        }
+        else {
+            treeInsert2(i, r);
+        }
+        printf("\n");
 
-    printTree(r);
+    }
+
     printf("\n");
 
-    /*treeInsert2(7, r);
-    treeInsert2(3, r);
-    treeInsert2(9, r);
-    treeInsert2(1, r);
-    treeInsert2(2, r);
-    treeInsert2(4, r);
-    treeInsert2(0, r);
-    treeInsert2(10, r);*/
-    treeInsert2(2, r);
-    treeInsert2(3, r);
-    treeInsert2(4, r);
-    treeInsert2(5, r);
-    treeInsert2(6, r);
-    treeInsert2(7, r);
-    treeInsert2(8, r);
-    treeInsert2(9, r);
-    treeInsert2(10, r);
-
-
-
-
-
-
-
-    while (TRUE) {
-        if (r->p == NULL)
-            break;
-
-        r = r->p;
-    }
 
     system("pause");
 } 
