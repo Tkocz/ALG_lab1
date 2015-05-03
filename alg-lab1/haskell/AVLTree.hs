@@ -93,6 +93,20 @@ fixLeftHeavy at@(NodeAVL a bt@(NodeAVL b bl br) ar)
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
+-- fixRightHeavy
+--------------------------------------------------------------------------------
+--fixRightHeavy (NodeAVL x EmptyAVL EmptyAVL) = (NodeAVL x EmptyAVL EmptyAVL)
+
+fixRightHeavy at@(NodeAVL a al bt@(NodeAVL b bl br))
+	| bh - alh < 2 = NodeAVL a al bt
+	| height bl > height br = rotateRightLeft at
+	| otherwise = rotateLeft at
+	where 	bh = height bt
+		alh = height al
+		ah = height at
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
 -- treeDelete
 --------------------------------------------------------------------------------
 treeDelete v' EmptyAVL = EmptyAVL
@@ -111,14 +125,11 @@ treeDelete v' (NodeAVL v EmptyAVL rt) | v'==v = rt
 
 treeDelete v' (NodeAVL v lf rt)
 	| v' == v
-	= (NodeAVL (minTree rt) lf (treeDelete (minTree rt) rt))
+	= fixLeftHeavy(NodeAVL (minTree rt) lf (treeDelete (minTree rt) rt))
 	| v' < v
-	= (NodeAVL v (treeDelete v' lf) rt)
+	= fixRightHeavy(NodeAVL v (treeDelete v' lf) rt)
 	| v' > v
-	= (NodeAVL v lf (treeDelete v' rt))
-	
-	| v > v'     = fixLeftHeavy  (NodeAVL v' (treeDelete v lf) rt)
-	| otherwise = fixRightHeavy (NodeAVL v' lf (treeDelete v rt))
+	= fixLeftHeavy(NodeAVL v lf (treeDelete v' rt))
 
 --------------------------------------------------------------------------------
 --------------------------------------------------------------------------------
@@ -131,20 +142,6 @@ minTree (NodeAVL v lf EmptyAVL) = minTree lf
 minTree (NodeAVL v EmptyAVL rt) = minTree rt
 
 minTree (NodeAVL v lf rt) = minTree lf
---------------------------------------------------------------------------------
-
---------------------------------------------------------------------------------
--- fixRightHeavy
---------------------------------------------------------------------------------
---fixRightHeavy (NodeAVL x EmptyAVL EmptyAVL) = (NodeAVL x EmptyAVL EmptyAVL)
-
-fixRightHeavy at@(NodeAVL a al bt@(NodeAVL b bl br))
-	| bh - alh < 2 = NodeAVL a al bt
-	| height bl > height br = rotateRightLeft at
-	| otherwise = rotateLeft at
-	where 	bh = height bt
-		alh = height al
-		ah = height at
 --------------------------------------------------------------------------------
 		
 treeInsert x EmptyAVL = NodeAVL x EmptyAVL EmptyAVL
