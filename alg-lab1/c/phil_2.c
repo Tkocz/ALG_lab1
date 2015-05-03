@@ -85,7 +85,7 @@ int min_val(int a, int b, int c) {
     return t;
 }
 
-void splitInsert(int value, nodeT* r, nodeT* s) {
+void splitInsert(int value, nodeT* r, nodeT* nodes[]) {
     int l_v = min_val(r->l_v, value, r->r_v);
     int m_v = mid_val(r->l_v, value, r->r_v);
     int r_v = max_val(r->l_v, value, r->r_v);
@@ -118,7 +118,7 @@ void splitInsert(int value, nodeT* r, nodeT* s) {
                 r->l_v = l_v;
             }
 
-            return r->p; //????
+            //return r->p; //????
         }
         else /* if (r->p->t == THREE_NODE) */ {
             if (r->t != THREE_NODE) {
@@ -133,23 +133,46 @@ void splitInsert(int value, nodeT* r, nodeT* s) {
             // r2 ska innehålla r_v
             // m_v skickas uppåt
 
-            nodeT* new_s = newNode(l_v);
+            nodeT* s = newNode(l_v);
 
             r->t = TWO_NODE;
             r->l_v = r_v;
 
-            if (s) {
-                new_s->l_c = s;
-                new_s->l_c->p = new_s;
-            }
+			nodeT** new_nodes = (nodeT**)malloc(sizeof(nodeT*) * 4);
 
-            splitInsert(m_v, r->p, new_s);
+			new_nodes[0] = s;
+			new_nodes[1] = r;
+			new_nodes[2] = r->p->l_c;
+			new_nodes[3] = r->p->m_c;
 
-            r->p = new_s->p;
+			if (r == r->p->l_c) new_nodes[2] = r->p->r_c;
+			if (r == r->p->m_c) new_nodes[3] = r->p->r_c;
 
+			if (nodes) {
+				for (int i = 0; i < 4; i++) {
+					for (int j = (i+1); j < 4; j++) {
+						nodeT* a = nodes[i];
+						nodeT* b = nodes[j];
 
-            r->p->l_c = new_s;
-            r->p->m_c = r;
+						if (a->l_v > b->l_v) {
+							nodeT* t = a;
+							a = b;
+							b = t;
+						}
+					}
+				}
+
+				s->l_c = nodes[0];
+				s->m_c = nodes[1];
+
+				r->l_c = nodes[2];
+				r->m_c = nodes[3];
+			}
+
+            splitInsert(m_v, r->p, new_nodes);
+
+			free(new_nodes);
+
         }
     }
     else {
@@ -193,42 +216,24 @@ void splitInsert(int value, nodeT* r, nodeT* s) {
         p->l_c = a;
         p->m_c = b;
 
-        if (value == l_v) {
-            // kommer från vänster
+		for (int i = 0; i < 4; i++) {
+			for (int j = (i+1); j < 4; j++) {
+				nodeT* p = nodes[i];
+				nodeT* q = nodes[j];
 
-            a->l_c = s;
-            a->m_c = r->l_c;
+				if (p->l_v > q->l_v) {
+					nodeT* t = p;
+					p = q;
+					q = t;
+				}
+			}
+		}
 
-            b->l_c = r->m_c;
-            b->m_c = r->r_c;
-        }
-        else if (value == m_v) {
-            // kommer från mitten
+		a->l_c = nodes[0];
+		a->m_c = nodes[1];
 
-            a->l_c = r->l_c;
-            a->m_c = s;
-
-            b->l_c = r->m_c;
-            b->m_c = r->r_c;
-        }
-        else if (value == r_v) {
-            // kommer från höger
-
-            a->l_c = r->l_c;
-            a->m_c = r->m_c;
-
-            b->l_c = s;
-            b->m_c = r->r_c;
-        }
-
-        a->l_c->p = a;
-        a->m_c->p = a;
-
-        b->l_c->p = b;
-        b->m_c->p = b;
-
-        // För helvete..!
-        b->r_c = NULL;
+		b->l_c = nodes[2];
+		b->m_c = nodes[3];
     }
 }
 
