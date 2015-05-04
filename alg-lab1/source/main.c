@@ -170,7 +170,7 @@ void treeSplit(int value, nodeT *node, nodeT *children[]) {
     // node återanvänder vi som den högra, med högst värde. Mittenvärdet
     // propagerar vi uppåt i trädet längre ner i koden.
     nodeT *newNode = createNode(minVal);
-    nodeT* parent = node->parent;
+    nodeT *parent  = node->parent;
 
     // Eftersom vi splittar noden så vet vi att den går från tre-nod till två-
     // nod.
