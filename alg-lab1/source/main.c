@@ -11,12 +11,12 @@
 //---------------------------------------------------------
 
 /*--------------------------------------
- * Constant: TwoNode
+ * Constant: MaxArgs
  *
  * Description:
- *   Indikerar att en nod är en 2-nod, dvs har ett värde och två barn.
+ *   Max antal argument i ett kommando.
  *------------------------------------*/
-#define TwoNode 2
+#define MaxArgs 100
 
 /*--------------------------------------
  * Constant: ThreeNode
@@ -25,6 +25,14 @@
  *   Indikerar att en nod är en 3-nod, dvs har två värden och tre barn.
  *------------------------------------*/
 #define ThreeNode 3
+
+/*--------------------------------------
+ * Constant: TwoNode
+ *
+ * Description:
+ *   Indikerar att en nod är en 2-nod, dvs har ett värde och två barn.
+ *------------------------------------*/
+#define TwoNode 2
 
 //---------------------------------------------------------
 // TYPES
@@ -335,6 +343,52 @@ void treeInsert(int value, nodeT *root) {
     }
 }
 
+void treePrint(nodeT* root) {
+    if (root->type == TwoNode) {
+        printf(" (%d", root->leftVal);
+    }
+    else {
+        printf(" (%d, %d", root->leftVal, root->rightVal);
+    }
+
+    if (!isLeaf(root)) {
+        if (root->type == TwoNode) {
+            treePrint(root->leftChild);
+            treePrint(root->midChild);
+        }
+        else {
+            treePrint(root->leftChild);
+            treePrint(root->midChild);
+            treePrint(root->rightChild);
+        }
+    }
+
+    printf(")");
+}
+
+static int parseCommand(string command, string args[], int maxArgs) {
+    int  index    = 0;
+    bool inQuotes = 0;
+    int  length   = StringLength(command);
+
+    for (int i = 0; i < length; i++) {
+        char c = command[i];
+
+        if (c == '"') {
+            if (inQuotes) inQuotes = FALSE;
+            else          inQuotes = TRUE;
+        }
+        else if (c == ' ' && !inQuotes) {
+            command[i] = '\0';
+            if (index >= maxArgs)
+                return maxArgs;
+            args[index++] = &command[i+1];
+        }
+    }
+
+    return index;
+}
+
 /*--------------------------------------
  * Function: printIntroMsg()
  * Parameters:
@@ -365,23 +419,47 @@ void main(void){
 
     nodeT *root = NULL;
 
+    printf("Enter a command (HELP for instructions)\n\n");
+
     while (TRUE) {
+        printf("> ");
+
         string s   = GetLine(),
                cmd = ConvertToUpperCase(s);
         FreeBlock(s);
+
+        string args[MaxArgs];
+        int numArgs = parseCommand(cmd, args, MaxArgs);
+
+        if (StringCompare(cmd, "")==0)
+            continue;
 
         if (StringCompare(cmd, "QUIT")==0)
             break;
 
         if (StringCompare(cmd, "HELP")==0) {
             printf("Commands:\n");
-            printf("quit - Exits the program.");
-            printf("i blallala\n");
+            printf("quit - Exits the program.\n");
+            printf("i <n> [n ...] - Inserts values into the tree.\n");
             printf("\n");
         }
+        else if (StringCompare(cmd, "I")==0
+              || StringCompare(cmd, "INSERT")==0)
+        {
+            for (int i = 0; i < numArgs; i++) {
+                int val = StringToInteger(args[i]);
+                if (!root)
+                    root = createNode(val);
+                else
+                    treeInsert(val, root);
+            }
 
-        if (cmd[0] == 'I') {
+            if (root)
+                root = findRoot(root);
 
+            printf("\n");
+            treePrint(root);
+            printf("\n\n");
         }
 
         FreeBlock(cmd);
