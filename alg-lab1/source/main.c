@@ -68,7 +68,7 @@ typedef struct nodeT {
  * Description:
  *   Returnerar sant om den specificerade noden inte har några barn.
  *------------------------------------*/
-bool isLeaf(nodeT *node) {
+static bool isLeaf(nodeT *node) {
     if (node->type == TwoNode) {
         return (node->leftChild == NULL)
             && (node->midChild  == NULL);
@@ -86,7 +86,7 @@ bool isLeaf(nodeT *node) {
  * Description:
  *   Skapar en ny, ensamstående två-nod med det givna värdet.
  *------------------------------------*/
-nodeT *createNode(int value) {
+static nodeT *createNode(int value) {
     nodeT *node = (nodeT *)malloc(sizeof(nodeT));
 
     node->parent = NULL;
@@ -114,7 +114,7 @@ nodeT *createNode(int value) {
  *   Letar upp den lövnod i trädet som ligger närmast det givna värdet. Vid
  *   insättning används denna lövnod för insättning.
  *------------------------------------*/
-nodeT *findLeaf(int value, nodeT *root) {
+static nodeT *findLeaf(int value, nodeT *root) {
     // Om vi hamnat i ett löv så kan vi inte söka vidare. Mest troligt har vi
     // hamnat i detta lövet för att vi kommit rätt, så vi returnerar noden.
     if (isLeaf(root))
@@ -143,7 +143,7 @@ nodeT *findLeaf(int value, nodeT *root) {
  * Description:
  *   Letar upp och returnerar den givna nodens absoluta rot.
  *------------------------------------*/
-nodeT *findRoot(nodeT *node) {
+static nodeT *findRoot(nodeT *node) {
     while (TRUE) {
         if (!node->parent)
             return node;
@@ -164,7 +164,7 @@ nodeT *findRoot(nodeT *node) {
  * Description:
  *   Sätter in ett värde och splittar den specificerade noden.
  *------------------------------------*/
-void treeSplit(int value, nodeT *node, nodeT *children[]) {
+static void treeSplit(int value, nodeT *node, nodeT *children[]) {
     if (node->type != ThreeNode)
         Error("Attempted to split a 2-node. This should not happen.");
 
@@ -304,7 +304,7 @@ void treeSplit(int value, nodeT *node, nodeT *children[]) {
  * Description:
  *   Sätter in ett värde och splittar den specificerade noden.
  *------------------------------------*/
-void treeInsert(int value, nodeT *root) {
+static void treeInsert(int value, nodeT *root) {
     //--------------------------------------------------------------------------
     // 1. Först letar vi upp det löv som värdet ska sättas in i.
     //--------------------------------------------------------------------------
@@ -343,7 +343,14 @@ void treeInsert(int value, nodeT *root) {
     }
 }
 
-void treePrint(nodeT* root) {
+/*--------------------------------------
+ * Function: treePrint()
+ * Parameters: root  Den nod varifrån trädets värden och noder ska skrivas ut.
+ *
+ * Description:
+ *   Skriver ut ett träd till terminalen.
+ *------------------------------------*/
+static void treePrint(nodeT* root) {
     if (root->type == TwoNode) {
         printf(" (%d", root->leftVal);
     }
@@ -366,6 +373,15 @@ void treePrint(nodeT* root) {
     printf(")");
 }
 
+/*--------------------------------------
+ * Function: parseCommand()
+ * Parameters: command  Kommando-strängen som ska parsas.
+ *             args     En vektor där vi sparar pekarna till argumenten.
+ *             maxArgs  Max antal argument som args-vektorn får innehålla.
+ *
+ * Description:
+ *   Parsar en kommando-sträng.
+ *------------------------------------*/
 static int parseCommand(string command, string args[], int maxArgs) {
     int  index    = 0;
     bool inQuotes = 0;
@@ -439,8 +455,9 @@ void main(void){
 
         if (StringCompare(cmd, "HELP")==0) {
             printf("Commands:\n");
-            printf("quit - Exits the program.\n");
             printf("i <n> [n ...] - Inserts values into the tree.\n");
+            printf("help - Shows the instructions for using this program.\n");
+            printf("quit - Exits the program.\n");
             printf("\n");
         }
         else if (StringCompare(cmd, "I")==0
