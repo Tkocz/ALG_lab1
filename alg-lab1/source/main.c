@@ -116,14 +116,14 @@ nodeT *findLeaf(int value, nodeT *root) {
     // värdet) rekursivt.
     if (root->type == TwoNode) {
         if (value < root->leftVal) return findLeaf(value, root->leftChild);
-        else                       return findLeaf(value, root->midChild);
+        else                       return findLeaf(value, root->midChild );
     }
 
     // Om noden har tre barn så söker vi vidare i ett av dem (beroende på
     // värdet) rekursivt.
 
-         if (value < root->leftVal ) return findLeaf(value, root->leftChild);
-    else if (value < root->rightVal) return findLeaf(value, root->midChild);
+         if (value < root->leftVal ) return findLeaf(value, root->leftChild );
+    else if (value < root->rightVal) return findLeaf(value, root->midChild  );
     else                             return findLeaf(value, root->rightChild);
 }
 
@@ -160,9 +160,9 @@ void treeSplit(int value, nodeT *node, nodeT *children[]) {
     if (node->type != ThreeNode)
         Error("Attempted to split a 2-node. This should not happen.");
 
-    int minVal = min(value, min(node->leftVal, node->rightVal));
     int midVal = (value < node->leftVal) ? min(node->leftVal, node->rightVal)
                                          : min(value        , node->rightVal);
+    int minVal = min(value, min(node->leftVal, node->rightVal));
     int maxVal = max(value, max(node->leftVal, node->rightVal));
 
     // När vi splittar en nod behöver vi skapa en ny nod, vilken blir ett
@@ -170,13 +170,14 @@ void treeSplit(int value, nodeT *node, nodeT *children[]) {
     // node återanvänder vi som den högra, med högst värde. Mittenvärdet
     // propagerar vi uppåt i trädet längre ner i koden.
     nodeT *newNode = createNode(minVal);
+    nodeT* parent = node->parent;
 
     // Eftersom vi splittar noden så vet vi att den går från tre-nod till två-
     // nod.
     node->leftVal = maxVal;
     node->type    = TwoNode;
 
-    if (!node->parent) {
+    if (!parent) {
         //----------------------------------------------------------------------
         // 1. Ingen förälder finns (vi är i roten).
         //
@@ -193,7 +194,7 @@ void treeSplit(int value, nodeT *node, nodeT *children[]) {
         newNode->parent = newRoot;
         node   ->parent = newRoot;
     }
-    else if (node->parent->type == TwoNode) {
+    else if (parent->type == TwoNode) {
         //----------------------------------------------------------------------
         // 2. Föräldern är en två-nod.
         //
@@ -201,29 +202,29 @@ void treeSplit(int value, nodeT *node, nodeT *children[]) {
         // mittenvärdet dit, sedan är vi klara.
         //----------------------------------------------------------------------
 
-        if (midVal < node->parent->leftVal) {
+        if (midVal < parent->leftVal) {
             // Värdet är mindre än nuvarande förälders enda värde.
 
-            node->parent->rightVal = node->parent->leftVal;
-            node->parent->leftVal  = midVal;
+            parent->rightVal = parent->leftVal;
+            parent->leftVal  = midVal;
                 
-            node->parent->rightChild = node->parent->midChild;
-            node->parent->midChild   = node;
-            node->parent->leftChild  = newNode;
+            parent->rightChild = parent->midChild;
+            parent->midChild   = node;
+            parent->leftChild  = newNode;
         }
         else {
             // Värdet är större än nuvarande förälders enda värde.
 
-            node->parent->rightVal = midVal;
+            parent->rightVal = midVal;
 
-            node->parent->rightChild = node;
-            node->parent->midChild   = newNode;
+            parent->rightChild = node;
+            parent->midChild   = newNode;
         }
 
-        newNode->parent = node->parent;
+        newNode->parent = parent;
 
         // Föräldern har nu två värden och blir således en tre-nod.
-        node->parent->type = ThreeNode;
+        parent->type = ThreeNode;
     }
     else {
         //----------------------------------------------------------------------
@@ -244,29 +245,29 @@ void treeSplit(int value, nodeT *node, nodeT *children[]) {
             // Vi är i vänster barn. newNode blir det första syskonet (till
             // vänster om vänsterbarnet).
             siblings[0] = newNode;
-            siblings[1] = node->parent->leftChild;
-            siblings[2] = node->parent->midChild;
-            siblings[3] = node->parent->rightChild;
+            siblings[1] = parent->leftChild;
+            siblings[2] = parent->midChild;
+            siblings[3] = parent->rightChild;
         }
-        else if (node == node->parent->midChild) {
+        else if (node == parent->midChild) {
             // Vi är i mittenbarnet. newNode blir det andra syskonet (till
             // vänster om mittenbarnet).
-            siblings[0] = node->parent->leftChild;
+            siblings[0] = parent->leftChild;
             siblings[1] = newNode;
-            siblings[2] = node->parent->midChild;
-            siblings[3] = node->parent->rightChild;
+            siblings[2] = parent->midChild;
+            siblings[3] = parent->rightChild;
         }
         else {
             // Vi är i höger barn. newNode blir det tredje syskonet (till
             // vänster om högerbarnet).
-            siblings[0] = node->parent->leftChild;
-            siblings[1] = node->parent->midChild;
+            siblings[0] = parent->leftChild;
+            siblings[1] = parent->midChild;
             siblings[2] = newNode;
-            siblings[3] = node->parent->rightChild;
+            siblings[3] = parent->rightChild;
         }
 
         // Rekursiooooon!
-        treeSplit(midVal, node->parent, siblings);
+        treeSplit(midVal, parent, siblings);
     }
 
     if (children) {
