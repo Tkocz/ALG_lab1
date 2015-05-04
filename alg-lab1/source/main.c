@@ -241,18 +241,24 @@ void treeSplit(int value, nodeT *node, nodeT *children[]) {
         // barnen redan är sorterade. Vi behöver alltså bara sätta in det
         // nya syskonet på rätt plats i syskonskaran.
         if (node == node->parent->leftChild) {
+            // Vi är i vänster barn. newNode blir det första syskonet (till
+            // vänster om vänsterbarnet).
             siblings[0] = newNode;
             siblings[1] = node->parent->leftChild;
             siblings[2] = node->parent->midChild;
             siblings[3] = node->parent->rightChild;
         }
         else if (node == node->parent->midChild) {
+            // Vi är i mittenbarnet. newNode blir det andra syskonet (till
+            // vänster om mittenbarnet).
             siblings[0] = node->parent->leftChild;
             siblings[1] = newNode;
             siblings[2] = node->parent->midChild;
             siblings[3] = node->parent->rightChild;
         }
         else {
+            // Vi är i höger barn. newNode blir det tredje syskonet (till
+            // vänster om högerbarnet).
             siblings[0] = node->parent->leftChild;
             siblings[1] = node->parent->midChild;
             siblings[2] = newNode;
