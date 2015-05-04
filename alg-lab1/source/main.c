@@ -433,10 +433,9 @@ void printIntroMsg() {
 void main(void){
     printIntroMsg();
 
-    nodeT *root = NULL;
-
     printf("Enter a command (HELP for instructions)\n\n");
 
+    nodeT *root = NULL;
     while (TRUE) {
         printf("> ");
 
@@ -445,7 +444,7 @@ void main(void){
         FreeBlock(s);
 
         string args[MaxArgs];
-        int numArgs = parseCommand(cmd, args, MaxArgs);
+        int    numArgs = parseCommand(cmd, args, MaxArgs);
 
         if (StringCompare(cmd, "")==0)
             continue;
@@ -460,7 +459,7 @@ void main(void){
             printf("quit - Exits the program.\n");
             printf("\n");
         }
-        else if (StringCompare(cmd, "I")==0
+        else if (StringCompare(cmd, "I"     )==0
               || StringCompare(cmd, "INSERT")==0)
         {
             for (int i = 0; i < numArgs; i++) {
